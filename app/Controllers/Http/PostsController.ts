@@ -20,26 +20,27 @@ export default class PostsController {
     }
 
     async store ({ request, response } : HttpContextContract) {
-        const { title, content } = request.body().validate(PostValidator)
+        const payload = await request.validate(PostValidator)
+        const id = 1
 
         const post = new Post()
-        await post.fill({ title: title, content: content}).save()
+        await post.fill({ title: payload.title, content: payload.content, user_id: id}).save()
 
         response.json({
             message: 'New post sucessfully created!',
-            data: post
+            data: payload
         })
     }
 
     async edit ({ params, request, response } : HttpContextContract) {
-        const { title, content } = request.body().validate(PostValidator)
+        const payload = await request.validate(PostValidator)
 
         const post = await Post.findOrFail(params.id)
-        await post.merge({ title: title, content: content }).save()
+        await post.merge({ title: payload.title, content: payload.content }).save()
 
         response.json({
             message: 'The post has been successfully updated!',
-            data: post
+            data: payload
         })
     }
 

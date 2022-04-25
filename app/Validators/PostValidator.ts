@@ -1,7 +1,6 @@
 import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-
 export default class PostValidator {
   constructor(protected ctx: HttpContextContract) {}
 
@@ -24,7 +23,6 @@ export default class PostValidator {
    *     ])
    *    ```
    */
-
   public schema = schema.create({
     title: schema.string({trim: true}, [
       rules.minLength(4),

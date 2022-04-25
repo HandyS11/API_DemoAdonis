@@ -20,13 +20,19 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.get('/', ({ response }) => {
+  response.json({
+    greeting: 'Hello world'
+  })
+})
+
 Route.group(() => {
-    Route.get('/posts', 'PostsController.index')
-    Route.post('/posts', 'PostController.create')
-    Route.get('/posts/:id', 'PostsController.show')
-    Route.put('/posts/:id', 'PostController.edit')
-    Route.delete('/posts/:id', 'PostController.destroy')
+  Route.delete('/posts/:id', 'PostsController.destroy')
+  Route.post('/posts', 'PostsController.store')
+  Route.get('/posts', 'PostsController.index')
+  Route.get('/posts/:id', 'PostsController.show')
+  Route.put('/posts/:id', 'PostsController.edit')
 }).middleware('auth')
 
 Route.post('/login', 'SecurityController.login')
-Route.post('/loginWithToken', 'SecurityController.login')
+ 

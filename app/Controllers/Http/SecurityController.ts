@@ -1,4 +1,6 @@
-// import { HttpContext } from "@adonisjs/core/build/standalone";
+// import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+
+// import User from "App/Models/User"
 
 export default class SecurityController {
 
@@ -6,15 +8,16 @@ export default class SecurityController {
         const email = request.input('email')
         const password = request.input('password')
 
+        /*const user = User.create({
+            email: "valentin-clergue@orange.fr",
+            password: "azerty"
+        })*/
+
         try {
             const token = await auth.use('api').attempt(email, password)
             return token
         } catch {
             return response.badRequest('Invalid credentials')
         }
-    }
-
-    async loginWithToken({ auth }) {
-        await auth.use('api').authenticated()
     }
 }
