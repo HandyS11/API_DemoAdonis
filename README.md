@@ -11,6 +11,7 @@ Then:
 - Create a MySQL database named -> 'lucid'
 - In `.env` -> check the logs to the database
 
+In the folder project
 > npm run dev
 
 > node ace migration:run
@@ -23,8 +24,10 @@ In the database insert this code (for better experience)
 > (4, 'Title article n°4', 'Content article n°4', 1), 
 > (5, 'Title article n°5', 'Content article n°5', 1)
 
+In **Postman** ;) or a web browser..
 > Launch a GET request on `http://localhost:3333/setup`
 
 > Launch a POST request on `http://localhost:/3333/login` with the token of the previous request
 
-> Look futher `./start/routes.ts` for more details
+Finaly
+> Look futher details look `./start/routes.ts`
