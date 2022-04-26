@@ -27,12 +27,18 @@ Route.get('/', ({ response }) => {
 })
 
 Route.group(() => {
-  Route.delete('/posts/:id', 'PostsController.destroy')
-  Route.post('/posts', 'PostsController.store')
   Route.get('/posts', 'PostsController.index')
   Route.get('/posts/:id', 'PostsController.show')
+  Route.post('/posts', 'PostsController.store')
   Route.put('/posts/:id', 'PostsController.edit')
+  Route.delete('/posts/:id', 'PostsController.destroy')
+
+  Route.get('/users', 'UsersController.index')
+  Route.get('/users/:id', 'UsersController.show')
+  Route.post('/users', 'UsersController.store')
+  Route.put('/users/:id', 'UsersController.edit')
+  Route.delete('/users/:id', 'UsersController.destroy')
 }).middleware('auth')
 
+Route.get('/setup', 'SecurityController.setup')
 Route.post('/login', 'SecurityController.login')
- 

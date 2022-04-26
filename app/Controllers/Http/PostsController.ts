@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Post from "App/Models/Post"
+//import User from 'App/Models/User'
 import PostValidator from 'App/Validators/PostValidator'
 
 
@@ -13,43 +14,55 @@ export default class PostsController {
     async show ({ params, response } : HttpContextContract) {
         const post = await Post.findOrFail(params.id)
 
+        //const name = User.query().preload('name').where('id', post.user_id).firstOrFail()     // ToDo : Fix cette merde
         response.json({
-            message: 'The post you\'re looking for!',
-            data: post
+            message: 'The Post you\'re looking for!',
+            data: post,
+            //"Owner": title
         })
     }
 
-    async store ({ request, response } : HttpContextContract) {
+    async store ({ auth, request, response } : HttpContextContract) {
         const payload = await request.validate(PostValidator)
-        const id = 1
-
+        const id = auth.user?.id
+        
         const post = new Post()
         await post.fill({ title: payload.title, content: payload.content, user_id: id}).save()
 
         response.json({
-            message: 'New post sucessfully created!',
+            message: 'New Post sucessfully created!',
             data: payload
         })
     }
 
-    async edit ({ params, request, response } : HttpContextContract) {
+    async edit ({ auth, params, request, response } : HttpContextContract) {
         const payload = await request.validate(PostValidator)
 
         const post = await Post.findOrFail(params.id)
-        await post.merge({ title: payload.title, content: payload.content }).save()
+
+        var message = "You are not the owner of this article!"
+        if (auth.user?.id == post.user_id) {
+            await post.merge({ title: payload.title, content: payload.content }).save()
+            message = "The Post has been edited!"
+        }
 
         response.json({
-            message: 'The post has been successfully updated!',
+            message: message,
             data: payload
         })
     }
 
-    async destroy ({ params, response } : HttpContextContract) {
+    async destroy ({ auth, params, response } : HttpContextContract) {
         const post = await Post.findOrFail(params.id)
-        await post.delete()
+
+        var message = "You are not the owner of this article!"
+        if (auth.user?.id == post.user_id) {
+            await post.delete()
+            message = "The Post has been deleted!"
+        }
 
         response.json({
-            message: 'The post has been successfully deleted:',
+            message: message,
             data: post
         })
     }
