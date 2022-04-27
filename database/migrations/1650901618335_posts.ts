@@ -8,7 +8,7 @@ export default class Posts extends BaseSchema {
       table.increments('id')
       table.string('title').notNullable()
       table.text('content', 'longtext').notNullable()
-      table.integer('user_id').unsigned().references('user.id').onDelete('SET NULL').nullable()
+      table.integer('userId').unsigned().references('user.id').onDelete('SET NULL').nullable()
     })
   }
 

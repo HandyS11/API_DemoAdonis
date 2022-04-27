@@ -15,5 +15,5 @@ export default class Post extends BaseModel {
   public user: BelongsTo<typeof User>
 
   @column()
-  public user_id: number
+  public userId: number
 }

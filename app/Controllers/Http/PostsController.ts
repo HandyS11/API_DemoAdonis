@@ -1,24 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import Post from "App/Models/Post"
-//import User from 'App/Models/User'
 import PostValidator from 'App/Validators/PostValidator'
 
 
 export default class PostsController {
 
     async index() {
-        return await Post.all()
+        return await Post.query().preload('user')
     }
 
     async show ({ params, response } : HttpContextContract) {
-        const post = await Post.findOrFail(params.id)
-
-        //const name = User.query().preload('name').where('id', post.user_id).firstOrFail()     // ToDo : Fix cette merde
+        const post = await Post.query().preload('user').where('id', params.id)   // ToDo : Fix cette merde
         response.json({
             message: 'The Post you\'re looking for!',
-            data: post,
-            //"Owner": title
+            data: post
         })
     }
 
@@ -27,7 +23,7 @@ export default class PostsController {
         const id = auth.user?.id
         
         const post = new Post()
-        await post.fill({ title: payload.title, content: payload.content, user_id: id}).save()
+        await post.fill({ title: payload.title, content: payload.content, userId: id}).save()
 
         response.json({
             message: 'New Post sucessfully created!',
@@ -41,7 +37,7 @@ export default class PostsController {
         const post = await Post.findOrFail(params.id)
 
         var message = "You are not the owner of this article!"
-        if (auth.user?.id == post.user_id) {
+        if (auth.user?.id == post.userId) {
             await post.merge({ title: payload.title, content: payload.content }).save()
             message = "The Post has been edited!"
         }
@@ -56,7 +52,7 @@ export default class PostsController {
         const post = await Post.findOrFail(params.id)
 
         var message = "You are not the owner of this article!"
-        if (auth.user?.id == post.user_id) {
+        if (auth.user?.id == post.userId) {
             await post.delete()
             message = "The Post has been deleted!"
         }
