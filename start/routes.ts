@@ -34,6 +34,10 @@ Route.group(() => {
   Route.post('/users', 'UsersController.store')
   Route.put('/users/:id', 'UsersController.edit')
   Route.delete('/users/:id', 'UsersController.destroy')
+
+  Route.post('/mongo', 'MongoController.store')
+  Route.put('/mongo/:id', 'MongoController.edit')
+  Route.delete('/mongo/:id', 'MongoController.destroy')
 }).middleware('auth')
 
 Route.get('/posts', 'PostsController.index')
@@ -41,6 +45,9 @@ Route.get('/posts/:id', 'PostsController.show')
 
 Route.get('/users', 'UsersController.index')
 Route.get('/users/:id', 'UsersController.show')
+
+Route.get('/mongo', 'MongoController.index')
+Route.get('/mongo/:id', 'MongoController.show')
 
 Route.get('/setup', 'SecurityController.setup')
 Route.post('/login', 'SecurityController.login')

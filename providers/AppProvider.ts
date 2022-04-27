@@ -9,7 +9,14 @@ export default class AppProvider {
   }
 
   public async boot () {
-    // IoC container is ready
+    const mongoose = require('mongoose')
+    mongoose.connect(
+      'mongodb+srv://HandyS11:azerty@cluster0.u6uwx.mongodb.net/db',    // Ne pas mettre ça en dur
+      () => {
+        console.log("Connected to MongoDB")
+      },
+      e => console.error(e)
+      )
   }
 
   public async ready () {

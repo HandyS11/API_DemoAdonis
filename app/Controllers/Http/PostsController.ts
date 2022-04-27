@@ -12,6 +12,7 @@ export default class PostsController {
 
     async show ({ params, response } : HttpContextContract) {
         const post = await Post.query().preload('user').where('id', params.id)   // ToDo : Fix cette merde
+        
         response.json({
             message: 'The Post you\'re looking for!',
             data: post
@@ -36,7 +37,7 @@ export default class PostsController {
 
         const post = await Post.findOrFail(params.id)
 
-        var message = "You are not the owner of this article!"
+        let message = "You are not the owner of this article!"
         if (auth.user?.id == post.userId) {
             await post.merge({ title: payload.title, content: payload.content }).save()
             message = "The Post has been edited!"
@@ -51,7 +52,7 @@ export default class PostsController {
     async destroy ({ auth, params, response } : HttpContextContract) {
         const post = await Post.findOrFail(params.id)
 
-        var message = "You are not the owner of this article!"
+        let message = "You are not the owner of this article!"
         if (auth.user?.id == post.userId) {
             await post.delete()
             message = "The Post has been deleted!"

@@ -35,7 +35,7 @@ export default class UsersController {
 
         const usr = await User.findOrFail(params.id)
 
-        var message = "Your are not the designed User!"
+        let message = "Your are not the designed User!"
         if (auth.user?.id == usr.id) {
             await usr.merge({ name: name }).save()
             message = "Your account has been edited!"
@@ -50,7 +50,7 @@ export default class UsersController {
     async destroy ({ auth, params, response } : HttpContextContract) {
         const usr = await User.findOrFail(params.id)
 
-        var message = "Your are not the designed User!"
+        let message = "Your are not the designed User!"
         if (auth.user?.id == usr.id) {
             await usr.delete()
             message = "Your account has been deleted!"
