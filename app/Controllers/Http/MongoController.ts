@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-const MongoUser = require("App/Models/MongoUser")
+const MongoUser = require("App/Schemas/MongoUser")
 
 
 export default class MongoController {
